@@ -1,0 +1,14 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Sun behind cloud -->
+    <path
+        android:fillColor="#FFC107"
+        android:pathData="M8.25,5.5a3.5,3.5 0,0 1,3.46 3h1.04a4.5,4.5 0,0 0,-4.5 -4.5 4.5,4.5 0,0 0,-4.42 3.65 3.5,3.5 0,0 0,-0.83 6.85v-1.05a2.5,2.5 0,0 1,0.75 -4.89 3.5,3.5 0,0 1,4.5 -3.06z" />
+    <!-- Cloud -->
+    <path
+        android:fillColor="#90A4AE"
+        android:pathData="M19.35,10.04C18.67,6.59 15.64,4 12,4 9.11,4 6.6,5.64 5.35,8.04 2.34,8.36 0,10.91 0,14c0,3.31 2.69,6 6,6h13c2.76,0 5,-2.24 5,-5 0,-2.64 -2.05,-4.78 -4.65,-4.96z" />
+</vector>

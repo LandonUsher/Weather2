@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Weather Checker"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <!-- Current Location Name -->
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="Berlin"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Button to change location -->
+    <Button
+        android:id="@+id/newWeatherButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:text="Get New Weather" />
+
+    <!-- Loading / Status text -->
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="8dp"
+        android:text="Loading..."
+        android:textSize="16sp" />
+
+    <!-- Vertically scrollable RecyclerView for forecast entries -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/weatherRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="12dp" />
+
+</LinearLayout>
