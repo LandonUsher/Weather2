@@ -1,12 +1,11 @@
 package com.example.weather
 
-import android.graphics.Typeface
 import android.os.Bundle
-import android.view.Gravity
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
@@ -14,67 +13,29 @@ import okhttp3.Headers
 class MainActivity : AppCompatActivity() {
 
     private lateinit var locationText: TextView
-    private lateinit var timeText: TextView
-    private lateinit var temperatureText: TextView
-    private lateinit var windText: TextView
+    private lateinit var statusText: TextView
+    private lateinit var newWeatherButton: Button
+    private lateinit var weatherRecyclerView: RecyclerView
 
     private var cityIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        // Main layout
-        val layout = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER_HORIZONTAL
-            setPadding(60, 100, 60, 60)
-        }
+        // Find views from XML layout
+        locationText = findViewById(R.id.locationText)
+        statusText = findViewById(R.id.statusText)
+        newWeatherButton = findViewById(R.id.newWeatherButton)
+        weatherRecyclerView = findViewById(R.id.weatherRecyclerView)
 
-        // Title
-        val titleText = TextView(this).apply {
-            text = "Weather Checker"
-            textSize = 30f
-            setTypeface(null, Typeface.BOLD)
-        }
+        // Set up vertical RecyclerView
+        weatherRecyclerView.layoutManager = LinearLayoutManager(this)
 
-        // Location
-        locationText = TextView(this).apply {
-            textSize = 22f
-            setTypeface(null, Typeface.BOLD)
-        }
-
-        // API results
-        timeText = TextView(this).apply {
-            textSize = 18f
-        }
-
-        temperatureText = TextView(this).apply {
-            textSize = 20f
-        }
-
-        windText = TextView(this).apply {
-            textSize = 20f
-        }
-
-        // Button
-        val newWeatherButton = Button(this).apply {
-            text = "Get New Weather"
-        }
-
-        // Add everything to the screen
-        layout.addView(titleText)
-        layout.addView(locationText)
-        layout.addView(timeText)
-        layout.addView(temperatureText)
-        layout.addView(windText)
-        layout.addView(newWeatherButton)
-
-        setContentView(layout)
-
-        // Get weather when app first starts
+        // Fetch weather when app starts
         getWeather()
 
-        // Get a different location when button is clicked
+        // Button listener to switch cities
         newWeatherButton.setOnClickListener {
             cityIndex = (cityIndex + 1) % 3
             getWeather()
@@ -89,12 +50,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         locationText.text = cityName
-        timeText.text = "Loading..."
-        temperatureText.text = ""
-        windText.text = ""
+        statusText.text = "Loading forecast..."
 
         val url =
-            "https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&current=temperature_2m,wind_speed_10m"
+            "https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,wind_speed_10m,weather_code"
 
         val client = AsyncHttpClient()
         client.get(url, object : JsonHttpResponseHandler() {
@@ -103,14 +62,31 @@ class MainActivity : AppCompatActivity() {
                 headers: Headers,
                 json: JSON
             ) {
-                val current = json.jsonObject.getJSONObject("current")
-                val time = current.getString("time")
-                val temperature = current.getDouble("temperature_2m")
-                val wind = current.getDouble("wind_speed_10m")
+                try {
+                    val hourly = json.jsonObject.getJSONObject("hourly")
+                    val timeArray = hourly.getJSONArray("time")
+                    val tempArray = hourly.getJSONArray("temperature_2m")
+                    val windArray = hourly.getJSONArray("wind_speed_10m")
+                    val codeArray = hourly.getJSONArray("weather_code")
 
-                timeText.text = "Time: $time"
-                temperatureText.text = "Temperature: $temperature"
-                windText.text = "Wind Speed: $wind"
+                    val weatherList = mutableListOf<WeatherItem>()
+
+                    for (i in 0 until timeArray.length()) {
+                        val rawTime = timeArray.getString(i).replace("T", " ")
+                        val temp = "${tempArray.getDouble(i)} °C"
+                        val wind = "Wind: ${windArray.getDouble(i)} km/h"
+                        val code = codeArray.getInt(i)
+
+                        weatherList.add(WeatherItem(rawTime, temp, wind, code))
+                    }
+
+                    // Display entries in RecyclerView
+                    weatherRecyclerView.adapter = WeatherAdapter(weatherList)
+                    statusText.text = "Showing ${weatherList.size} forecast entries"
+
+                } catch (_: Exception) {
+                    statusText.text = "Error parsing weather data."
+                }
             }
 
             override fun onFailure(
@@ -119,9 +95,7 @@ class MainActivity : AppCompatActivity() {
                 errorResponse: String,
                 throwable: Throwable?
             ) {
-                timeText.text = "Could not load weather."
-                temperatureText.text = ""
-                windText.text = ""
+                statusText.text = "Could not load weather forecast."
             }
         })
     }
