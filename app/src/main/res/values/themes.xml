@@ -1,9 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Weather" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Customize light theme colors -->
+        <item name="colorPrimary">@color/weather_primary</item>
+        <item name="colorSecondary">@color/weather_secondary</item>
+        <item name="android:windowBackground">@color/weather_background</item>
     </style>
 
     <style name="Theme.Weather" parent="Base.Theme.Weather" />
+
+    <!-- Reusable Custom Styles -->
+    <style name="WeatherCardStyle">
+        <item name="cardCornerRadius">14dp</item>
+        <item name="cardElevation">3dp</item>
+        <item name="cardBackgroundColor">@color/weather_card_bg</item>
+    </style>
+
+    <style name="WeatherItemTimeStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/weather_text_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="WeatherItemTempStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/weather_primary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="WeatherItemWindStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/weather_text_secondary</item>
+    </style>
 </resources>

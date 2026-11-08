@@ -77,7 +77,26 @@ class MainActivity : AppCompatActivity() {
                         val wind = "Wind: ${windArray.getDouble(i)} km/h"
                         val code = codeArray.getInt(i)
 
-                        weatherList.add(WeatherItem(rawTime, temp, wind, code))
+                        val condition = when (code) {
+                            0 -> "Clear"
+                            1, 2, 3 -> "Cloudy"
+                            45, 48 -> "Fog"
+                            51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82 -> "Rain"
+                            71, 73, 75, 77, 85, 86 -> "Snow"
+                            95, 96, 99 -> "Thunderstorm"
+                            else -> "Clear"
+                        }
+
+                        weatherList.add(
+                            WeatherItem(
+                                cityName = cityName,
+                                time = rawTime,
+                                temperature = temp,
+                                windSpeed = wind,
+                                weatherCode = code,
+                                condition = condition
+                            )
+                        )
                     }
 
                     // Display entries in RecyclerView

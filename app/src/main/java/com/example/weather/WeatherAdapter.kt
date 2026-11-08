@@ -12,7 +12,7 @@ class WeatherAdapter(private val weatherList: List<WeatherItem>) :
 
     class WeatherViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val weatherIcon: ImageView = itemView.findViewById(R.id.weatherIcon)
-        val timeText: TextView = itemView.findViewById(R.id.timeText)
+        val cityTimeText: TextView = itemView.findViewById(R.id.timeText)
         val tempText: TextView = itemView.findViewById(R.id.tempText)
         val windText: TextView = itemView.findViewById(R.id.windText)
     }
@@ -26,9 +26,9 @@ class WeatherAdapter(private val weatherList: List<WeatherItem>) :
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
         val item = weatherList[position]
 
-        holder.timeText.text = item.time
+        holder.cityTimeText.text = "${item.cityName} • ${item.time}"
         holder.tempText.text = item.temperature
-        holder.windText.text = item.windSpeed
+        holder.windText.text = "${item.condition} | ${item.windSpeed}"
 
         // Set weather symbol image based on WMO weather code
         val iconRes = when (item.weatherCode) {

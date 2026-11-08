@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/WeatherCardStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
-    android:layout_marginVertical="6dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    android:layout_marginVertical="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,33 +28,28 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Time Text Field -->
+            <!-- City and Time Text Field using Downloadable Font & Custom Style -->
             <TextView
                 android:id="@+id/timeText"
+                style="@style/WeatherItemTimeStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content" />
 
-            <!-- Wind Speed Text Field -->
+            <!-- Weather Condition and Wind Speed using Downloadable Font & Custom Style -->
             <TextView
                 android:id="@+id/windText"
+                style="@style/WeatherItemWindStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="14sp" />
+                android:layout_marginTop="2dp" />
         </LinearLayout>
 
-        <!-- Temperature Text Field -->
+        <!-- Temperature Text Field using Downloadable Font & Custom Style -->
         <TextView
             android:id="@+id/tempText"
+            style="@style/WeatherItemTempStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
